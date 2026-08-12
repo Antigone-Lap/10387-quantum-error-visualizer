@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.2",
+]
 
 [project.scripts]
 10387-quantum-error-visualizer = "10387_quantum_error_visualizer:main"
