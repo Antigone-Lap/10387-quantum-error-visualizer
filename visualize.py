@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import qutip as qt
+from matplotlib.animation import FuncAnimation, PillowWriter
 
 def bloch_vector_from_density(rho):
     sx = qt.sigmax()
@@ -71,3 +72,56 @@ def fidelity_plot(fidelities):
     plt.title("Fidelity decay under noise")
     plt.grid(True)
     plt.show()
+
+
+
+def bloch_rotating_animation(states):
+    """
+    Rotating Bloch sphere with moving arrow + trajectory.
+    Exportable as GIF using PillowWriter.
+    """
+
+    # Convert states → Bloch vectors
+    vecs = np.array([
+        [
+            (rho * qt.sigmax()).tr().real,
+            (rho * qt.sigmay()).tr().real,
+            (rho * qt.sigmaz()).tr().real
+        ]
+        for rho in states
+    ])
+
+    # Sphere coordinates
+    u = np.linspace(0, 2*np.pi, 50)
+    v = np.linspace(0, np.pi, 50)
+    xs = np.outer(np.cos(u), np.sin(v))
+    ys = np.outer(np.sin(u), np.sin(v))
+    zs = np.outer(np.ones_like(u), np.cos(v))
+
+    fig = plt.figure(figsize=(6,6))
+    ax = fig.add_subplot(111, projection='3d')
+
+    def update(i):
+        ax.clear()
+
+        # Draw sphere
+        ax.plot_surface(xs, ys, zs, color='lightblue', alpha=0.2, linewidth=0)
+
+        # Draw trajectory
+        ax.plot(vecs[:i+1,0], vecs[:i+1,1], vecs[:i+1,2], color='blue')
+
+        # Draw arrow
+        ax.quiver(0,0,0, vecs[i,0], vecs[i,1], vecs[i,2], color='red', linewidth=2)
+
+        # Rotate camera
+        ax.view_init(elev=30, azim=i*4)
+
+        ax.set_xlim([-1,1])
+        ax.set_ylim([-1,1])
+        ax.set_zlim([-1,1])
+        ax.set_box_aspect([1,1,1])
+
+    ani = FuncAnimation(fig, update, frames=len(vecs), interval=100)
+    plt.close(fig)
+    return ani
+
