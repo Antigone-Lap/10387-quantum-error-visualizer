@@ -33,23 +33,31 @@ def bloch_trajectory(states):
     b.make_sphere()
     b.show()
 
+
+
 def density_matrix_plot(rho):
-    """
-    Plot the real and imaginary parts of a density matrix.
-    """
-    fig, axes = plt.subplots(1, 2, figsize=(8, 4))
+    # Convert Qobj → numeric array
+    mat = rho.full()  # or np.array(rho.full())
 
-    real = np.real(rho.full())
-    imag = np.imag(rho.full())
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
-    axes[0].imshow(real, cmap='viridis')
+    # Real part
+    im0 = axes[0].imshow(np.real(mat), cmap='viridis')
     axes[0].set_title("Real part")
+    axes[0].set_xlabel("Column")
+    axes[0].set_ylabel("Row")
+    fig.colorbar(im0, ax=axes[0])
 
-    axes[1].imshow(imag, cmap='magma')
+    # Imaginary part
+    im1 = axes[1].imshow(np.imag(mat), cmap='viridis')
     axes[1].set_title("Imaginary part")
+    axes[1].set_xlabel("Column")
+    axes[1].set_ylabel("Row")
+    fig.colorbar(im1, ax=axes[1])
 
     plt.tight_layout()
     plt.show()
+
 
 def fidelity_plot(fidelities):
     """
