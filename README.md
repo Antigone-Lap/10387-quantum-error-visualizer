@@ -112,35 +112,3 @@ fidelity_plot(fidelities)
 ### Jupyter Notebook
 
 Open `QuantumErrorVisualizer-demo.ipynb` for a complete walkthrough covering all modules with physics explanations and visualizations.
-
-## Physics Background
-
-### The Bloch Sphere
-
-Any pure single-qubit state can be written as:
-
-```
-|psi> = cos(theta/2)|0> + e^(i*phi) * sin(theta/2)|1>
-```
-
-This maps to a point on the **Bloch sphere** with coordinates (x, y, z) = (<sigma_x>, <sigma_y>, <sigma_z>). Pure states lie on the surface; mixed states lie inside.
-
-### Density Matrices
-
-The density matrix `rho = |psi><psi|` generalizes quantum states to mixed states (statistical ensembles). Noise channels transform density matrices, not state vectors.
-
-### Kraus Representation
-
-Any completely positive trace-preserving (CPTP) map can be written as:
-
-```
-E(rho) = sum_k  K_k * rho * K_k^dagger
-```
-
-where `sum_k  K_k^dagger * K_k = I` ensures trace preservation.
-
-### Key Metrics
-
-- **Fidelity**: F(rho_0, rho) = <psi_0|rho|psi_0> — measures overlap with the original state (1 = perfect, 0 = lost)
-- **Purity**: gamma = Tr(rho^2) — measures how mixed a state is (1 = pure, 0.5 = maximally mixed for a qubit)
-
