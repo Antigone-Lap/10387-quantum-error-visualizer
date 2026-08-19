@@ -34,7 +34,7 @@ def density_matrix(state):
         return state * state.dag()
     return state
 
-def cat_state(alpha, phase=0):
+def cat_state(phase=0):
     """
     Create a simple qubit 'cat' state:
     |cat> = (|0> + e^{i phase} |1>) / sqrt(2)
