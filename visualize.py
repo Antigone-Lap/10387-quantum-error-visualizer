@@ -36,28 +36,34 @@ def bloch_trajectory(states):
 
 
 
+
 def density_matrix_plot(rho):
     # Convert Qobj → numeric array
-    mat = rho.full()  # or np.array(rho.full())
+    mat = rho.full()
+
+    # Symmetric color scale for both plots
+    vmax = np.max(np.abs(mat))
+    vmin = -vmax
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
     # Real part
-    im0 = axes[0].imshow(np.real(mat), cmap='viridis')
-    axes[0].set_title("Real part")
+    im0 = axes[0].imshow(np.real(mat), cmap='viridis', vmin=vmin, vmax=vmax)
+    axes[0].set_title("Real part of ρ")
     axes[0].set_xlabel("Column")
     axes[0].set_ylabel("Row")
     fig.colorbar(im0, ax=axes[0])
 
     # Imaginary part
-    im1 = axes[1].imshow(np.imag(mat), cmap='viridis')
-    axes[1].set_title("Imaginary part")
+    im1 = axes[1].imshow(np.imag(mat), cmap='viridis', vmin=vmin, vmax=vmax)
+    axes[1].set_title("Imaginary part of ρ")
     axes[1].set_xlabel("Column")
     axes[1].set_ylabel("Row")
     fig.colorbar(im1, ax=axes[1])
 
     plt.tight_layout()
     plt.show()
+
 
 
 def fidelity_plot(fidelities):
